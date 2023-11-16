@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/fs"
 	"io/ioutil"
-	"log"
 	"sort"
 	"sync"
 )
@@ -15,29 +14,43 @@ import (
 // В поле BaseSize хранится размер файла в байтах.
 // В поле ConvertedSize хранится размер файла после перевода байт в килобайты, мегабайты и т.д.
 type FileInfo struct {
-	Type          string
-	Name          string
-	BaseSize      int64
-	ConvertedSize string
+	Type          FileType `json:"type"`
+	Name          string   `json:"name"`
+	BaseSize      int64    `json:"base_size"`
+	ConvertedSize string   `json:"converted_size"`
 }
 
-// FileSystem() принимает путь к директории и порядок сортировки в качествер параметров.
+type SortOrder string
+
+const (
+	ASC  SortOrder = "asc"
+	DESC SortOrder = "desc"
+)
+
+type FileType string
+
+const (
+	FILE = "f"
+	DIR  = "d"
+)
+
+// FileSystem() принимает путь к директории и порядок сортировки в качестве параметров.
 // Возвращает срез структур FileInfo, отсортированный по полю BaseSize в порядке,
 // заданном sortOrder
-func FileSystem(root, sortOrder string) []FileInfo {
-	if sortOrder != "asc" && sortOrder != "desc" {
+func FileSystem(root string, sortOrder SortOrder) []FileInfo {
+	if sortOrder != ASC && sortOrder != DESC {
 		fmt.Printf("%s is invalid value for sort parameter.\n", sortOrder)
-		log.Fatal()
+
 	}
 	// С помощью filesToStructs создаем срез структур, содержащий информацию о файлах.
 	fileInfos, err := filesToStructs(root)
 	if err != nil {
 		fmt.Println("Couldn't calculate file's size")
-		log.Fatal()
+
 	}
 	// В зависимости от значения флага sortOrder, сортируем срез структур по полю Size
 	// в убывающем или возрастающем порядке
-	if sortOrder == "asc" {
+	if sortOrder == ASC {
 		sort.Slice(fileInfos, func(i, j int) bool {
 			return fileInfos[i].BaseSize < fileInfos[j].BaseSize
 		})
@@ -63,11 +76,11 @@ func byteConvert(bytes int64) string {
 
 // fileType() принимает файл или директорию и возвращает
 // строку "f" или "d" соответственно
-func fileType(file fs.FileInfo) string {
+func fileType(file fs.FileInfo) FileType {
 	if file.IsDir() {
-		return "d"
+		return DIR
 	}
-	return "f"
+	return FILE
 }
 
 // dirSize() принимает путь к директории и возвращает ее размер
@@ -107,9 +120,7 @@ func filesToStructs(path string) ([]FileInfo, error) {
 		wg.Add(1)
 		go func(f fs.FileInfo) error {
 			defer wg.Done()
-			var newFile FileInfo
-			newFile.Type = fileType(f)
-			newFile.Name = f.Name()
+			newFile := FileInfo{fileType(f), f.Name(), 0, ""}
 			if f.IsDir() {
 				size, err := dirSize(fmt.Sprintf("%s/%s", path, f.Name()))
 				if err != nil {
