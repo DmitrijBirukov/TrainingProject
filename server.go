@@ -15,6 +15,7 @@ type Response struct {
 	Data      interface{}
 }
 
+// В main() задаются маршруты на сайте и запускается сервер
 func main() {
 	port := 8081
 	http.HandleFunc("/", htmlHandler)
@@ -46,7 +47,10 @@ func jsonHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	root := r.URL.Query().Get("root")
 	sortOrder := SortOrder(r.URL.Query().Get("sort_order"))
-	files := FileSystem(root, sortOrder)
+	files, err := FileSystem(root, sortOrder)
+	if err != nil {
+		fmt.Println("Coulnd't get inner files")
+	}
 	jsonData, err := json.Marshal(files)
 	if err != nil {
 		fmt.Println("Couldn't marshal files")

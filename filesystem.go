@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"io/fs"
 	"io/ioutil"
@@ -20,6 +21,7 @@ type FileInfo struct {
 	ConvertedSize string   `json:"converted_size"`
 }
 
+// Тип данных для параметра сортировки, может принимать только значения asc и desc
 type SortOrder string
 
 const (
@@ -27,6 +29,7 @@ const (
 	DESC SortOrder = "desc"
 )
 
+// Тип данных для типа файла, может принимать только значения f и d
 type FileType string
 
 const (
@@ -37,15 +40,16 @@ const (
 // FileSystem() принимает путь к директории и порядок сортировки в качестве параметров.
 // Возвращает срез структур FileInfo, отсортированный по полю BaseSize в порядке,
 // заданном sortOrder
-func FileSystem(root string, sortOrder SortOrder) []FileInfo {
+func FileSystem(root string, sortOrder SortOrder) ([]FileInfo, error) {
 	if sortOrder != ASC && sortOrder != DESC {
-		fmt.Printf("%s is invalid value for sort parameter.\n", sortOrder)
-
+		errText := fmt.Sprintf("%s is invalid value for sort parameter.\n", sortOrder)
+		return nil, errors.New(errText)
 	}
 	// С помощью filesToStructs создаем срез структур, содержащий информацию о файлах.
 	fileInfos, err := filesToStructs(root)
 	if err != nil {
-		fmt.Println("Couldn't calculate file's size")
+		errText := "сouldn't create strcts slice"
+		return nil, errors.New(errText)
 
 	}
 	// В зависимости от значения флага sortOrder, сортируем срез структур по полю Size
@@ -59,7 +63,7 @@ func FileSystem(root string, sortOrder SortOrder) []FileInfo {
 			return fileInfos[i].BaseSize > fileInfos[j].BaseSize
 		})
 	}
-	return fileInfos
+	return fileInfos, nil
 }
 
 // byteConvert() принимает размер файла в байтах
