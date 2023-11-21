@@ -1,4 +1,5 @@
-import { FileDataResponseList, SortOrder } from "../types";
+import { Loader } from "../loader.js";
+import { FileDataResponseList, SortOrder } from "../types.js";
 
 export class Model {
     getFiles(
@@ -8,6 +9,7 @@ export class Model {
         },
         callback : Function,
     ){
+        Loader.show();
         let xhr = new XMLHttpRequest();
         let host = window.location.href;
         let url = `${host}files?root=${queryParams.root}&sort_order=${queryParams.sortOrder}`;
@@ -24,4 +26,3 @@ export class Model {
         xhr.send();
     }
 }
-export default Model;

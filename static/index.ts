@@ -1,7 +1,7 @@
 import { Model } from "./Model/model.js"
 import { View } from "./View/view.js"
 import { Controller } from "./Controller/controller.js"
-import { SortOrder } from "./types.js";
+import { FileDataResponseList, SortOrder } from "./types.js";
 
 // Вызов обработчика события загрузки html-страницы
 document.addEventListener('DOMContentLoaded', () => {
@@ -23,7 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let view = new View();
     let controller = new Controller(sortButtons, parent, backButton);
 
-    function callback(response : any) {
+
+    function callback(response : FileDataResponseList) {
         view.createList(response, parent, queryParams, previous, model, callback);
     }
     view.initialize(queryParams, callback, model);

@@ -1,4 +1,5 @@
-import { Model } from "../Model/model"
+import { Model } from "../Model/model.js"
+import { Loader } from "../loader.js";
 import { FileDataResponseList, FileType, SortOrder } from "../types.js";
 
 export class View {
@@ -21,7 +22,7 @@ export class View {
     
             // Если файл является директорией, нужен обработчик клика мышкой
             // для перехода в выбранную директорию
-            if (r['type'] === FileType.dir){
+            if (r.type === FileType.dir){
                 li.addEventListener('click', () => {
                     previous.push(queryParams.root);
                     queryParams.root += `${r['name']}/`;
@@ -31,6 +32,7 @@ export class View {
             }
             parent!.appendChild(li);
         })
+       Loader.hide();
     }
 
     initialize(

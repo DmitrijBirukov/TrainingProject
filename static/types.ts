@@ -11,7 +11,6 @@ export enum FileType {
 export type File = {
     type : FileType,
     name : string,
-    _ : string,
     converted_size : string
 }
 

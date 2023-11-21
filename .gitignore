@@ -1,6 +1,8 @@
-go-server
+node_modules
+loader.js
 controller.js
 view.js
 model.js
 types.js
 index.js
+go-server
