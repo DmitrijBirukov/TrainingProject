@@ -49,7 +49,7 @@ func jsonHandler(w http.ResponseWriter, r *http.Request) {
 	sortOrder := SortOrder(r.URL.Query().Get("sort_order"))
 	files, err := FileSystem(root, sortOrder)
 	if err != nil {
-		fmt.Println("Coulnd't get inner files")
+		fmt.Println(err)
 	}
 	jsonData, err := json.Marshal(files)
 	if err != nil {

@@ -1,4 +1,5 @@
 import { Model } from "../Model/model";
+import { SortOrder } from "../types";
 
 export class Controller{
     
@@ -16,8 +17,10 @@ export class Controller{
         this.backButton = backButton;
     }
     initialize(
-        root : string,
-        sortOrder: string,
+        queryParams : {
+            root : string,
+            sortOrder : SortOrder
+        },
         previous : string[],
         model : Model,
         callback : Function
@@ -25,9 +28,9 @@ export class Controller{
 
         this.sortButtons.forEach( (element) => {
             element.addEventListener('click', () => {
-                sortOrder = element.getAttribute('id')!;
+                queryParams.sortOrder = element.getAttribute('id')! as SortOrder;
                 this.parent!.innerHTML = '';
-                model.getFiles(root, sortOrder, callback);
+                model.getFiles(queryParams, callback);
             })
         });
 
@@ -36,9 +39,9 @@ export class Controller{
             if (previous.length === 0) {
                 alert("You're in the root directory");
             } else {
-                root = previous.pop()!;
+                queryParams.root = previous.pop()!;
                 this.parent!.innerHTML = '';
-                model.getFiles(root, sortOrder, callback);
+                model.getFiles(queryParams, callback);
             }
         });
     }

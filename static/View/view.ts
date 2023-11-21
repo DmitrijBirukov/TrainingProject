@@ -1,31 +1,32 @@
 import { Model } from "../Model/model"
+import { FileDataResponseList, FileType, SortOrder } from "../types.js";
 
 export class View {
-
     // createList() 
     createList(
-        response : any,
+        response : FileDataResponseList,
         parent : Element | null, 
-        root : string,
-        sortOrder : string,
+        queryParams : {
+            root : string,
+            sortOrder : SortOrder
+        },
         previous : string[],
         model : Model,
         callback : Function
     ){
-        response.forEach( (r : any) => {
-            let content = '';
+        response.forEach( (r) => {
             let li = document.createElement('li');
-            content = `${r['type']} ${r['name']} ${r['converted_size']}`;
+            let content = `${r.type} ${r.name} ${r.converted_size}`;
             li.innerHTML = content;
     
             // Если файл является директорией, нужен обработчик клика мышкой
             // для перехода в выбранную директорию
-            if (r['type'] === 'd'){
+            if (r['type'] === FileType.dir){
                 li.addEventListener('click', () => {
-                    previous.push(root);
-                    root += `${r['name']}/`;
+                    previous.push(queryParams.root);
+                    queryParams.root += `${r['name']}/`;
                     parent!.innerHTML = '';
-                    model.getFiles(root, sortOrder, callback);
+                    model.getFiles(queryParams, callback);
                 });
             }
             parent!.appendChild(li);
@@ -33,11 +34,13 @@ export class View {
     }
 
     initialize(
-        root : string,
-        sortOrder : string,
+        queryParams : {
+            root : string,
+            sortOrder : SortOrder
+        },
         callback : Function,
         model : Model
     ){
-        model.getFiles(root, sortOrder, callback);
+        model.getFiles(queryParams, callback);
     }
 }
