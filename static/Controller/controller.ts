@@ -3,9 +3,9 @@ import { SortOrder } from "../types.js";
 
 export class Controller{
     
-    sortButtons;
-    parent;
-    backButton;
+    sortButtons: NodeListOf<HTMLElement>;
+    parent: Element | null;
+    backButton: Element | null;
 
     constructor(
         sortButtons : NodeListOf<HTMLElement>,

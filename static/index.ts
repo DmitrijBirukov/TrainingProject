@@ -10,8 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
      root : '/',
      sortOrder : SortOrder.asc
     };
+
     // Задаем массив для хранения истории посещенных директорий
-    let previous : string[] = [];
+    let previous: string[] = [];
 
     // Задаем элементы страницы
     let parent = document.querySelector('#files');
