@@ -11,6 +11,8 @@ export class View {
     previous : string[];
     callback : Function
     controller : Controller;
+
+    // Конструктор класса View
     constructor(
         parent : Element | null,
         queryParams : {
@@ -26,7 +28,8 @@ export class View {
         this.callback = callback;
         this.controller = new Controller(parent, queryParams, previous, callback);
     }
-    // createList() 
+
+    // createList() принимает ответ с данными и на их основе создает список на html-странице 
     createList(response : FileDataResponseList){
         response.forEach( (r) => {
             let li = document.createElement('li');
@@ -45,9 +48,11 @@ export class View {
             }
             this.parent!.appendChild(li);
         })
+
+       // Скрываем загрузчик со страницы
        Loader.hide();
     }
-
+    // initialize() получает данные от контроллера и вызывает его метод initialize 
     initialize(){
         this.controller.getFilesData();
         this.controller.initialize();

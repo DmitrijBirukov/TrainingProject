@@ -2,6 +2,9 @@ import { Loader } from "../loader.js";
 import { FileDataResponseList, SortOrder } from "../types.js";
 
 export class Model {
+
+    // getFilesData() делает xmlhttp-запрос для получения информации о файлах в директории.
+    // Если получен ответ с кодом 200, вызывает callback
     getFilesData(
         queryParams : {
             root : string,
@@ -9,6 +12,7 @@ export class Model {
         },
         callback : Function,
     ){
+        // Пока не сформироано содержимое списка на странице отображаем загрузчик
         Loader.show();
         let xhr = new XMLHttpRequest();
         let host = window.location.href;

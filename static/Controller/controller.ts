@@ -12,6 +12,7 @@ export class Controller{
     callback : Function;
     model : Model;
 
+    // Конструктор класса Controller
     constructor(
         parent : Element | null,
         queryParams : {
@@ -28,13 +29,18 @@ export class Controller{
         this.model = new Model();
     }
 
+    // getFilesData() получает данные от модели
     getFilesData(){
         this.model.getFilesData(this.queryParams, this.callback)
     }
 
+    // initialize() вызывает обработчики событий для элементов на html-странице
     initialize(){
+
         let sortButtons = document.getElementsByName('sortOrder');
         let backButton = document.querySelector('#back');
+        
+        // Вызов обработчиков клика мышкой для кнопок сортировки
         sortButtons.forEach( (element) => {
             element.addEventListener('click', () => {
                 this.queryParams.sortOrder = element.getAttribute('id')! as SortOrder;
@@ -43,7 +49,7 @@ export class Controller{
             })
         });
 
-        // Вызов обработчика клика мышкой для перехода в прошлую директорию
+        // Вызов обработчика клика мышкой для кнопки перехода в прошлую директорию
         backButton!.addEventListener('click', () => {
             if (this.previous.length === 0) {
                 alert("You're in the root directory");

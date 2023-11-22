@@ -1,10 +1,9 @@
-import { Model } from "./Model/model"
 import { View } from "./View/view"
-import { Controller } from "./Controller/controller"
 import { FileDataResponseList, SortOrder } from "./types";
 
 // Вызов обработчика события загрузки html-страницы
 document.addEventListener('DOMContentLoaded', () => {
+    
     // Задаем начальные значения параметров 
     let queryParams = {
      root : '/',
@@ -21,11 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         view.createList(response);
     }
 
-    // Инициализируем объекты классов
+    // Инициализируем объект view
     let view = new View(parent, queryParams, previous, callback);
-
-
-
-
     view.initialize();
 });

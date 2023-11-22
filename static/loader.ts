@@ -8,7 +8,7 @@ export class Loader {
         }
     }
 
-    // hide() скрывает элемент со странице
+    // hide() скрывает элемент со страницы
     static hide(){
         let loader = document.getElementById('load');
         if (loader){

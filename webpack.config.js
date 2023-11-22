@@ -11,8 +11,9 @@ module.exports = {
                 use: ['style-loader', 'css-loader']
             },
             {
-                test: /\.ts$/,
+                test: /\.tsx$/,
                 use: 'ts-loader',
+                exclude: /node-modules/
             },
             {
                 test: /\.(png|jpg|jpeg|gif)$/i,
