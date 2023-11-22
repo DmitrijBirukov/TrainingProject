@@ -8,21 +8,19 @@
 </head>
 <body>
     <div class="container">
-        <h2 class="title">Choose Sorting Order</h2> 
+        <h2 class="title">Choose Sorting Order <button id="stat" class="container__button">Statistics</button></h2> 
+        
         <input id="asc" type="radio" class="radio" name="sortOrder" checked="checked">
         <label for="asc" class="label">Ascending</label><br>
         <input id="desc" type="radio" class="radio" name="sortOrder">
         <label for="desc" class="label">Descending</label>
-        <h2 class="title">Inner Files: <button id= "back" class="backButton">Back</button></h2>
+        <h2 class="title">Inner Files:</h2>
+        <button id= "back" class="container__button">Back</button>
         <img id="load" src="static/load.gif">
         <div id="files">
             
         </div>
     </div>
-    <script src="static/Model/model.js" type="module"></script>
-    <script src="static/View/view.js" type="module"></script>
-    <script src="static/Controller/controller.js" type="module"></script>
-    <script src="static/index.js" type="module"></script>
 </body>
 </html>
 

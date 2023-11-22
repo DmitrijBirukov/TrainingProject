@@ -9,18 +9,6 @@ import (
 	"sync"
 )
 
-// Структура FileInfo хранит информацию о файле.
-// В поле Type хранится тип файла: файл или директория.
-// В поле Name хранится имя файла.
-// В поле BaseSize хранится размер файла в байтах.
-// В поле ConvertedSize хранится размер файла после перевода байт в килобайты, мегабайты и т.д.
-type FileInfo struct {
-	Type          FileType `json:"type"`
-	Name          string   `json:"name"`
-	BaseSize      int64    `json:"base_size"`
-	ConvertedSize string   `json:"converted_size"`
-}
-
 // Тип данных для параметра сортировки, может принимать только значения asc и desc
 type SortOrder string
 
