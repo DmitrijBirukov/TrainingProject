@@ -1,7 +1,7 @@
-import { Model } from "./Model/model.js"
-import { View } from "./View/view.js"
-import { Controller } from "./Controller/controller.js"
-import { FileDataResponseList, SortOrder } from "./types.js";
+import { Model } from "./Model/model"
+import { View } from "./View/view"
+import { Controller } from "./Controller/controller"
+import { FileDataResponseList, SortOrder } from "./types";
 
 // Вызов обработчика события загрузки html-страницы
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,18 +16,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Задаем элементы страницы
     let parent = document.querySelector('#files');
-    let sortButtons = document.getElementsByName('sortOrder');
-    let backButton = document.querySelector('#back');
-
-    // Инициализируем объекты классов
-    let model = new Model();
-    let view = new View();
-    let controller = new Controller(sortButtons, parent, backButton);
-
 
     function callback(response : FileDataResponseList) {
-        view.createList(response, parent, queryParams, previous, model, callback);
+        view.createList(response);
     }
-    view.initialize(queryParams, callback, model);
-    controller.initialize(queryParams, previous, model, callback);
+
+    // Инициализируем объекты классов
+    let view = new View(parent, queryParams, previous, callback);
+
+
+
+
+    view.initialize();
 });

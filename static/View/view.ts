@@ -1,20 +1,33 @@
-import { Model } from "../Model/model.js"
+import { Controller } from "../Controller/controller.js";
 import { Loader } from "../loader.js";
 import { FileDataResponseList, FileType, SortOrder } from "../types.js";
-
 export class View {
-    // createList() 
-    createList(
-        response : FileDataResponseList,
-        parent : Element | null, 
+
+    parent : Element | null;
+    queryParams : {
+        root : string,
+        sortOrder : SortOrder
+    };
+    previous : string[];
+    callback : Function
+    controller : Controller;
+    constructor(
+        parent : Element | null,
         queryParams : {
             root : string,
             sortOrder : SortOrder
-        },
-        previous : string[],
-        model : Model,
+        }, 
+        previous : string[], 
         callback : Function
     ){
+        this.parent = parent;
+        this.queryParams = queryParams;
+        this.previous = previous;
+        this.callback = callback;
+        this.controller = new Controller(parent, queryParams, previous, callback);
+    }
+    // createList() 
+    createList(response : FileDataResponseList){
         response.forEach( (r) => {
             let li = document.createElement('li');
             let content = `${r.type} ${r.name} ${r.converted_size}`;
@@ -24,25 +37,19 @@ export class View {
             // для перехода в выбранную директорию
             if (r.type === FileType.dir){
                 li.addEventListener('click', () => {
-                    previous.push(queryParams.root);
-                    queryParams.root += `${r['name']}/`;
-                    parent!.innerHTML = '';
-                    model.getFiles(queryParams, callback);
+                    this.previous.push(this.queryParams.root);
+                    this.queryParams.root += `${r['name']}/`;
+                    this.parent!.innerHTML = '';
+                    this.controller.getFilesData();
                 });
             }
-            parent!.appendChild(li);
+            this.parent!.appendChild(li);
         })
        Loader.hide();
     }
 
-    initialize(
-        queryParams : {
-            root : string,
-            sortOrder : SortOrder
-        },
-        callback : Function,
-        model : Model
-    ){
-        model.getFiles(queryParams, callback);
+    initialize(){
+        this.controller.getFilesData();
+        this.controller.initialize();
     }
 }

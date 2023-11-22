@@ -2,7 +2,7 @@ import { Loader } from "../loader.js";
 import { FileDataResponseList, SortOrder } from "../types.js";
 
 export class Model {
-    getFiles(
+    getFilesData(
         queryParams : {
             root : string,
             sortOrder : SortOrder

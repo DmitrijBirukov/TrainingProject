@@ -3,45 +3,54 @@ import { SortOrder } from "../types.js";
 
 export class Controller{
     
-    sortButtons: NodeListOf<HTMLElement>;
     parent: Element | null;
-    backButton: Element | null;
+    queryParams : {
+        root : string,
+        sortOrder : SortOrder,
+    };
+    previous : string[];
+    callback : Function;
+    model : Model;
 
     constructor(
-        sortButtons : NodeListOf<HTMLElement>,
         parent : Element | null,
-        backButton : Element | null
-    ){
-        this.sortButtons = sortButtons;
-        this.parent = parent;
-        this.backButton = backButton;
-    }
-    initialize(
         queryParams : {
             root : string,
             sortOrder : SortOrder
-        },
-        previous : string[],
-        model : Model,
-        callback : Function
+        }, 
+        previous : string[], 
+        callback : Function     
     ){
+        this.parent = parent;
+        this.queryParams = queryParams;
+        this.previous = previous;
+        this.callback = callback;
+        this.model = new Model();
+    }
 
-        this.sortButtons.forEach( (element) => {
+    getFilesData(){
+        this.model.getFilesData(this.queryParams, this.callback)
+    }
+
+    initialize(){
+        let sortButtons = document.getElementsByName('sortOrder');
+        let backButton = document.querySelector('#back');
+        sortButtons.forEach( (element) => {
             element.addEventListener('click', () => {
-                queryParams.sortOrder = element.getAttribute('id')! as SortOrder;
+                this.queryParams.sortOrder = element.getAttribute('id')! as SortOrder;
                 this.parent!.innerHTML = '';
-                model.getFiles(queryParams, callback);
+                this.model.getFilesData(this.queryParams, this.callback);
             })
         });
 
         // Вызов обработчика клика мышкой для перехода в прошлую директорию
-        this.backButton!.addEventListener('click', () => {
-            if (previous.length === 0) {
+        backButton!.addEventListener('click', () => {
+            if (this.previous.length === 0) {
                 alert("You're in the root directory");
             } else {
-                queryParams.root = previous.pop()!;
+                this.queryParams.root = this.previous.pop()!;
                 this.parent!.innerHTML = '';
-                model.getFiles(queryParams, callback);
+                this.model.getFilesData(this.queryParams, this.callback);
             }
         });
     }
