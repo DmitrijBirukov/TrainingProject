@@ -29,7 +29,7 @@ func main() {
 
 // htmlHandler() - обработчик запросов, отвечающий за отображение html-страницы
 func htmlHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("static/index.html")
+	tmpl, err := template.ParseFiles("static/dist/index.html")
 	if err != nil {
 		fmt.Println("Couldn't parse file")
 		return

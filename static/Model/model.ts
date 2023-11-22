@@ -1,5 +1,5 @@
-import { Loader } from "../loader.js";
-import { FileDataResponseList, SortOrder } from "../types.js";
+import { Loader } from "../loader";
+import { FileDataResponseList, SortOrder } from "../types";
 
 export class Model {
 

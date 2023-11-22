@@ -1,5 +1,5 @@
-import { Model } from "../Model/model.js";
-import { SortOrder } from "../types.js";
+import { Model } from "../Model/model";
+import { SortOrder } from "../types";
 
 export class Controller{
     

@@ -2,18 +2,20 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './static/index.ts',
+    entry: './static/index',
 
     module: {
         rules: [
             {
+                test: /\.ts$/,
+                exclude: /node-modules/,
+                loader: 'babel-loader'
+
+            },
+
+            {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
-            },
-            {
-                test: /\.tsx$/,
-                use: 'ts-loader',
-                exclude: /node-modules/
             },
             {
                 test: /\.(png|jpg|jpeg|gif)$/i,
@@ -23,7 +25,7 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['.js', '.tsx', '.ts']
+        extensions: ['.js', '.tsx', '.ts', '.json']
     },
 
     output: {

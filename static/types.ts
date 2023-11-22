@@ -10,7 +10,7 @@ export enum FileType {
     dir = 'd'
 }
 
-// Определение типа хранящего информацию о файле
+// Определение типа, хранящего информацию о файле
 export type File = {
     type : FileType,
     name : string,

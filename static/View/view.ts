@@ -1,6 +1,6 @@
-import { Controller } from "../Controller/controller.js";
-import { Loader } from "../loader.js";
-import { FileDataResponseList, FileType, SortOrder } from "../types.js";
+import { Controller } from "../Controller/controller";
+import { Loader } from "../loader";
+import { FileDataResponseList, FileType, SortOrder } from "../types";
 export class View {
 
     parent : Element | null;
